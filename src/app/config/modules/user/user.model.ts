@@ -58,6 +58,7 @@ const studentSchema = new mongoose.Schema<IStudent>(
       firstName: {
         type: String,
         required: [true, 'First name is required.'],
+        trim: true,
         maxlength: [16, 'First name can not be more than 20 charcter'],
       },
       middleName: { type: String },
@@ -67,6 +68,7 @@ const studentSchema = new mongoose.Schema<IStudent>(
       type: String,
       unique: true,
       required: [true, 'Email is required and must be unique.'],
+      trim: true,
     },
     contactNo: {
       type: String,
