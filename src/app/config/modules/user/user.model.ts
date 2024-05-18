@@ -55,7 +55,11 @@ const studentSchema = new mongoose.Schema<IStudent>(
       unique: true,
     },
     name: {
-      firstName: { type: String, required: [true, 'First name is required.'] },
+      firstName: {
+        type: String,
+        required: [true, 'First name is required.'],
+        maxlength: [16, 'First name can not be more than 20 charcter'],
+      },
       middleName: { type: String },
       lastName: { type: String, required: [true, 'Last name is required.'] },
     },
