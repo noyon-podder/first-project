@@ -4,46 +4,46 @@ import { IStudent, Guardian, LocalGuardian } from './user.interface'
 const guardianSchema = new mongoose.Schema<Guardian>({
   fathersName: {
     type: String,
-    required: [true, "Father's name is required."],
+    required: [true, 'Father name is required.'],
   },
   fatherOccupation: {
     type: String,
-    required: [true, "Father's occupation is required."],
+    required: [true, 'Father occupation is required.'],
   },
   fatherContactNo: {
     type: String,
-    required: [true, "Father's contact number is required."],
+    required: [true, 'Father contact number is required.'],
   },
   motherName: {
     type: String,
-    required: [true, "Mother's name is required."],
+    required: [true, 'Mother name is required.'],
   },
   motherOccupation: {
     type: String,
-    required: [true, "Mother's occupation is required."],
+    required: [true, 'Mother occupation is required.'],
   },
   motherContactNo: {
     type: String,
-    required: [true, "Mother's contact number is required."],
+    required: [true, 'Mother contact number is required.'],
   },
 })
 
 const localGuardianSchema = new mongoose.Schema<LocalGuardian>({
   name: {
     type: String,
-    required: [true, "Local guardian's name is required."],
+    required: [true, 'Local guardian name is required.'],
   },
   occupation: {
     type: String,
-    required: [true, "Local guardian's occupation is required."],
+    required: [true, 'Local guardian occupation is required.'],
   },
   contactNo: {
     type: String,
-    required: [true, "Local guardian's contact number is required."],
+    required: [true, 'Local guardian contact number is required.'],
   },
   address: {
     type: String,
-    required: [true, "Local guardian's address is required."],
+    required: [true, 'Local guardian address is required.'],
   },
 })
 
@@ -105,7 +105,6 @@ const studentSchema = new mongoose.Schema<IStudent>(
     isActive: {
       type: String,
       enum: ['active', 'inactive'],
-      default: 'active',
     },
   },
   { timestamps: true },
