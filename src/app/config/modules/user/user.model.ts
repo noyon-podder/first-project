@@ -118,7 +118,8 @@ const studentSchema = new mongoose.Schema<IStudent>(
     profileImage: { type: String },
     isActive: {
       type: String,
-      enum: ['active', 'inactive'],
+      enum: ['active', 'block'],
+      default: 'active',
     },
   },
   { timestamps: true },

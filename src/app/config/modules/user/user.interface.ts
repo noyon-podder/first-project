@@ -26,7 +26,7 @@ export type IStudent = {
   email: string
   contactNo: string
 
-  gender: 'male' | 'female'
+  gender: 'male' | 'female' | 'other'
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-'
   emergencyContactNo: string
   dateOfBirth: string
@@ -35,5 +35,5 @@ export type IStudent = {
   guardian: Guardian
   localGuardian: LocalGuardian
   profileImage?: string
-  isActive: 'active' | 'inactive'
+  isActive: 'active' | 'block'
 }

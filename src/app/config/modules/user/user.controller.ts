@@ -4,24 +4,15 @@ import studentValidationSchema from './user.validation'
 
 // create student
 const createStudent = async (req: Request, res: Response) => {
-  // joi validation package data
-
-  // Example usage
-
   try {
-    const student = req.body
+    // Guardian Schema
 
-    const { error } = studentValidationSchema.validate(student)
+    const studentData = req.body
 
-    const result = await UserService.createStudentIntoDB(student)
+    // Validate the data with jod
+    const zodParseData = studentValidationSchema.parse(studentData)
 
-    if (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Something went wrong',
-        error: error.details,
-      })
-    }
+    const result = await UserService.createStudentIntoDB(zodParseData)
 
     res.status(200).json({
       success: true,
