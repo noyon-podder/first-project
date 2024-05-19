@@ -1,12 +1,27 @@
 import { Request, Response } from 'express'
 import { UserService } from './user.service'
+import studentValidationSchema from './user.validation'
 
 // create student
 const createStudent = async (req: Request, res: Response) => {
-  try {
-    const data = req.body
+  // joi validation package data
 
-    const result = await UserService.createStudentIntoDB(data)
+  // Example usage
+
+  try {
+    const student = req.body
+
+    const { error } = studentValidationSchema.validate(student)
+
+    const result = await UserService.createStudentIntoDB(student)
+
+    if (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Something went wrong',
+        error: error.details,
+      })
+    }
 
     res.status(200).json({
       success: true,
