@@ -1,3 +1,5 @@
+import { Model } from 'mongoose'
+
 export type Username = {
   firstName: string
   middleName?: string
@@ -37,3 +39,13 @@ export type IStudent = {
   profileImage?: string
   isActive: 'active' | 'block'
 }
+
+export type IStudentMethod = {
+  isUserExists(id: string): Promise<IStudent | null>
+}
+
+export type StudentModel = Model<
+  IStudent,
+  Record<string, never>,
+  IStudentMethod
+>

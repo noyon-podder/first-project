@@ -1,5 +1,11 @@
 import mongoose from 'mongoose'
-import { IStudent, Guardian, LocalGuardian } from './user.interface'
+import {
+  IStudent,
+  Guardian,
+  LocalGuardian,
+  StudentModel,
+  IStudentMethod,
+} from './user.interface'
 import validator from 'validator'
 
 const guardianSchema = new mongoose.Schema<Guardian>({
@@ -48,7 +54,11 @@ const localGuardianSchema = new mongoose.Schema<LocalGuardian>({
   },
 })
 
-const studentSchema = new mongoose.Schema<IStudent>(
+const studentSchema = new mongoose.Schema<
+  IStudent,
+  StudentModel,
+  IStudentMethod
+>(
   {
     id: {
       type: String,
@@ -125,4 +135,13 @@ const studentSchema = new mongoose.Schema<IStudent>(
   { timestamps: true },
 )
 
-export const Student = mongoose.model<IStudent>('Student', studentSchema)
+studentSchema.methods.isUserExists = async function (id) {
+  const existingUser = Student.findOne({ id })
+
+  return existingUser
+}
+
+export const Student = mongoose.model<IStudent, StudentModel>(
+  'Student',
+  studentSchema,
+)
