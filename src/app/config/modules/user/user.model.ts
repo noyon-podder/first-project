@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { IStudent, Guardian, LocalGuardian } from './user.interface'
+import validator from 'validator'
 
 const guardianSchema = new mongoose.Schema<Guardian>({
   fathersName: {
@@ -60,6 +61,10 @@ const studentSchema = new mongoose.Schema<IStudent>(
         required: [true, 'First name is required.'],
         trim: true,
         maxlength: [16, 'First name can not be more than 20 charcter'],
+        validate: {
+          validator: (value: string) => validator.isAlpha(value),
+          message: '{VALUE} is not defined',
+        },
       },
       middleName: { type: String },
       lastName: { type: String, required: [true, 'Last name is required.'] },
@@ -68,7 +73,10 @@ const studentSchema = new mongoose.Schema<IStudent>(
       type: String,
       unique: true,
       required: [true, 'Email is required and must be unique.'],
-      trim: true,
+      validate: {
+        validator: (value: string) => validator.isEmail(value),
+        message: '{VALUE} is not valid email',
+      },
     },
     contactNo: {
       type: String,
