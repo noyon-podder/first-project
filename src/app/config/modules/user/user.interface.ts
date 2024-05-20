@@ -26,6 +26,7 @@ export type IStudent = {
   id: string
   name: Username
   email: string
+  password: string
   contactNo: string
 
   gender: 'male' | 'female' | 'other'
@@ -40,12 +41,19 @@ export type IStudent = {
   isActive: 'active' | 'block'
 }
 
-export type IStudentMethod = {
-  isUserExists(id: string): Promise<IStudent | null>
+// creating static method
+export interface StudentModel extends Model<IStudent> {
+  isUserExists(id: string): Promise<IStudent>
 }
 
-export type StudentModel = Model<
-  IStudent,
-  Record<string, never>,
-  IStudentMethod
->
+// for creating instance
+
+// export type IStudentMethod = {
+//   isUserExists(id: string): Promise<IStudent | null>
+// }
+
+// export type StudentModel = Model<
+//   IStudent,
+//   Record<string, never>,
+//   IStudentMethod
+// >

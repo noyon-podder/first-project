@@ -4,9 +4,11 @@ import {
   Guardian,
   LocalGuardian,
   StudentModel,
-  IStudentMethod,
+  // IStudentMethod,
 } from './user.interface'
 import validator from 'validator'
+import bcrypt from 'bcrypt'
+import config from '../..'
 
 const guardianSchema = new mongoose.Schema<Guardian>({
   fathersName: {
@@ -56,8 +58,8 @@ const localGuardianSchema = new mongoose.Schema<LocalGuardian>({
 
 const studentSchema = new mongoose.Schema<
   IStudent,
-  StudentModel,
-  IStudentMethod
+  StudentModel
+  // IStudentMethod
 >(
   {
     id: {
@@ -87,6 +89,12 @@ const studentSchema = new mongoose.Schema<
         validator: (value: string) => validator.isEmail(value),
         message: '{VALUE} is not valid email',
       },
+    },
+    password: {
+      type: String,
+      unique: true,
+      maxlength: 20,
+      required: true,
     },
     contactNo: {
       type: String,
@@ -135,7 +143,18 @@ const studentSchema = new mongoose.Schema<
   { timestamps: true },
 )
 
-studentSchema.methods.isUserExists = async function (id) {
+// pre middleware
+studentSchema.pre('save', async function (next) {
+  const user = this
+
+  user.password = await bcrypt.hash(user.password, Number(config.saltRound))
+
+  next()
+})
+
+// for creating static method
+
+studentSchema.statics.isUserExists = async function (id) {
   const existingUser = Student.findOne({ id })
 
   return existingUser
@@ -145,3 +164,16 @@ export const Student = mongoose.model<IStudent, StudentModel>(
   'Student',
   studentSchema,
 )
+
+// for creating instance method
+
+// studentSchema.methods.isUserExists = async function (id) {
+//   const existingUser = Student.findOne({ id })
+
+//   return existingUser
+// }
+
+// export const Student = mongoose.model<IStudent, StudentModel>(
+//   'Student',
+//   studentSchema,
+// )

@@ -36,6 +36,7 @@ const studentValidationSchema = z.object({
     .string()
     .email('Email is not valid')
     .min(1, 'Email is required and must be unique.'),
+  password: z.string().max(20),
   contactNo: z.string().min(1, 'Contact number is required.'),
   gender: z.enum(['male', 'female', 'other'], {
     required_error: 'Gender is required.',
