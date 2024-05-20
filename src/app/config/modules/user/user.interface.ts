@@ -39,6 +39,7 @@ export type IStudent = {
   localGuardian: LocalGuardian
   profileImage?: string
   isActive: 'active' | 'block'
+  isDeleted: boolean
 }
 
 // creating static method

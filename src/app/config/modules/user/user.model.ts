@@ -139,6 +139,10 @@ const studentSchema = new mongoose.Schema<
       enum: ['active', 'block'],
       default: 'active',
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 )
@@ -148,6 +152,28 @@ studentSchema.pre('save', async function (next) {
   const user = this
 
   user.password = await bcrypt.hash(user.password, Number(config.saltRound))
+
+  next()
+})
+
+studentSchema.post('save', function (doc, next) {
+  doc.password = ''
+
+  next()
+})
+
+studentSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } })
+
+  next()
+})
+studentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } })
+
+  next()
+})
+studentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } })
 
   next()
 })

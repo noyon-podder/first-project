@@ -7,4 +7,6 @@ router.post('/create-student', UserController.createStudent)
 router.get('/', UserController.getAllStudents)
 router.get('/:id', UserController.getSingleStudent)
 
+router.delete('/:id', UserController.deleteStudent)
+
 export const UserRoutes = router
