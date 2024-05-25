@@ -1,14 +1,12 @@
 import mongoose from 'mongoose'
 import {
-  IStudent,
+  TStudent,
   Guardian,
   LocalGuardian,
   StudentModel,
   // IStudentMethod,
 } from './students.interface'
 import validator from 'validator'
-import bcrypt from 'bcrypt'
-import config from '../../config'
 
 const guardianSchema = new mongoose.Schema<Guardian>({
   fathersName: {
@@ -57,7 +55,7 @@ const localGuardianSchema = new mongoose.Schema<LocalGuardian>({
 })
 
 const studentSchema = new mongoose.Schema<
-  IStudent,
+  TStudent,
   StudentModel
   // IStudentMethod
 >(
@@ -65,6 +63,12 @@ const studentSchema = new mongoose.Schema<
     id: {
       type: String,
       required: [true, 'Student ID is required and must be unique.'],
+      unique: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'User ID is required'],
       unique: true,
     },
     name: {
@@ -90,12 +94,7 @@ const studentSchema = new mongoose.Schema<
         message: '{VALUE} is not valid email',
       },
     },
-    password: {
-      type: String,
-      unique: true,
-      maxlength: 20,
-      required: true,
-    },
+
     contactNo: {
       type: String,
       required: [true, 'Contact number is required.'],
@@ -134,11 +133,7 @@ const studentSchema = new mongoose.Schema<
       required: [true, 'Guardian information is required.'],
     },
     profileImage: { type: String },
-    isActive: {
-      type: String,
-      enum: ['active', 'block'],
-      default: 'active',
-    },
+
     isDeleted: {
       type: Boolean,
       default: false,
@@ -146,21 +141,6 @@ const studentSchema = new mongoose.Schema<
   },
   { timestamps: true },
 )
-
-// pre middleware
-studentSchema.pre('save', async function (next) {
-  const user = this
-
-  user.password = await bcrypt.hash(user.password, Number(config.saltRound))
-
-  next()
-})
-
-studentSchema.post('save', function (doc, next) {
-  doc.password = ''
-
-  next()
-})
 
 studentSchema.pre('findOne', function (next) {
   this.find({ isDeleted: { $ne: true } })
@@ -186,20 +166,7 @@ studentSchema.statics.isUserExists = async function (id) {
   return existingUser
 }
 
-export const Student = mongoose.model<IStudent, StudentModel>(
+export const Student = mongoose.model<TStudent, StudentModel>(
   'Student',
   studentSchema,
 )
-
-// for creating instance method
-
-// studentSchema.methods.isUserExists = async function (id) {
-//   const existingUser = Student.findOne({ id })
-
-//   return existingUser
-// }
-
-// export const Student = mongoose.model<IStudent, StudentModel>(
-//   'Student',
-//   studentSchema,
-// )

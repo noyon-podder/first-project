@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 import { TUser } from './user.interface'
+import bcrypt from 'bcrypt'
+import config from '../../config'
 
 const userSchema = new mongoose.Schema<TUser>(
   {
@@ -32,5 +34,19 @@ const userSchema = new mongoose.Schema<TUser>(
   },
   { timestamps: true },
 )
+
+// password hashing use mongoose pre middleware
+userSchema.pre('save', async function (next) {
+  this.password = await bcrypt.hash(this.password, Number(config.saltRound))
+
+  next()
+})
+
+// send empty string when send the data in response
+userSchema.post('save', function (doc, next) {
+  doc.password = ''
+
+  next()
+})
 
 export const User = mongoose.model<TUser>('User', userSchema)

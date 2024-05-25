@@ -1,40 +1,5 @@
 import { Request, Response } from 'express'
 import { StudentsService } from './students.service'
-import studentValidationSchema from './students.validation'
-
-// create student
-const createStudent = async (req: Request, res: Response) => {
-  try {
-    // Guardian Schema
-
-    const studentData = req.body
-
-    // Validate the data with jod
-    const zodParseData = studentValidationSchema.parse(studentData)
-
-    const result = await StudentsService.createStudentIntoDB(zodParseData)
-
-    res.status(200).json({
-      success: true,
-      message: 'Student Create Successfully',
-      data: result,
-    })
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      res.status(500).json({
-        success: false,
-        message: err.message,
-        error: err,
-      })
-    } else {
-      res.status(500).json({
-        success: false,
-        message: 'An unknown error occurred',
-        error: err,
-      })
-    }
-  }
-}
 
 // get all students
 const getAllStudents = async (req: Request, res: Response) => {
@@ -72,7 +37,6 @@ const deleteStudent = async (req: Request, res: Response) => {
   })
 }
 export const StudentsController = {
-  createStudent,
   getAllStudents,
   getSingleStudent,
   deleteStudent,
