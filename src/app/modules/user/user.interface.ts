@@ -3,6 +3,6 @@ export type TUser = {
   password: string
   needsPasswordChange: boolean
   role: 'admin' | 'faculty' | 'student'
-  status: 'in-progress' | 'block'
+  status: 'in-progress' | 'blocked'
   isDeleted: boolean
 }
