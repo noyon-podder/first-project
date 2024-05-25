@@ -1,40 +1,69 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { StudentsService } from './students.service'
+import sendResponse from '../../utils/sendResponse'
+import httpStatus from 'http-status'
 
 // get all students
-const getAllStudents = async (req: Request, res: Response) => {
-  const result = await StudentsService.getAllStudents()
+const getAllStudents = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const result = await StudentsService.getAllStudents()
 
-  res.status(200).json({
-    success: true,
-    message: 'Student Create Successfully',
-    data: result,
-  })
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'All Students Retrieve Successfully!!',
+      data: result,
+    })
+  } catch (error) {
+    next(error)
+  }
 }
 
 // get single student
 
-const getSingleStudent = async (req: Request, res: Response) => {
-  const id = req.params.id
-  const result = await StudentsService.getSingleStudent(id)
+const getSingleStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = req.params.id
+    const result = await StudentsService.getSingleStudent(id)
 
-  res.status(200).json({
-    success: true,
-    message: 'Student Create Successfully',
-    data: result,
-  })
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Single Students Retrieve Successfully!!',
+      data: result,
+    })
+  } catch (error) {
+    next(error)
+  }
 }
 
-const deleteStudent = async (req: Request, res: Response) => {
-  const id = req.params.id
+const deleteStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = req.params.id
 
-  const result = await StudentsService.deleteStudentFromDB(id)
+    const result = await StudentsService.deleteStudentFromDB(id)
 
-  res.status(200).json({
-    success: true,
-    message: 'Student Create Successfully',
-    data: result,
-  })
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Student Delete Successfully!!',
+      data: result,
+    })
+  } catch (error) {
+    next(error)
+  }
 }
 export const StudentsController = {
   getAllStudents,
