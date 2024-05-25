@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { UserService } from './user.service'
-import studentValidationSchema from './user.validation'
+import { StudentsService } from './students.service'
+import studentValidationSchema from './students.validation'
 
 // create student
 const createStudent = async (req: Request, res: Response) => {
@@ -12,7 +12,7 @@ const createStudent = async (req: Request, res: Response) => {
     // Validate the data with jod
     const zodParseData = studentValidationSchema.parse(studentData)
 
-    const result = await UserService.createStudentIntoDB(zodParseData)
+    const result = await StudentsService.createStudentIntoDB(zodParseData)
 
     res.status(200).json({
       success: true,
@@ -38,7 +38,7 @@ const createStudent = async (req: Request, res: Response) => {
 
 // get all students
 const getAllStudents = async (req: Request, res: Response) => {
-  const result = await UserService.getAllStudents()
+  const result = await StudentsService.getAllStudents()
 
   res.status(200).json({
     success: true,
@@ -51,7 +51,7 @@ const getAllStudents = async (req: Request, res: Response) => {
 
 const getSingleStudent = async (req: Request, res: Response) => {
   const id = req.params.id
-  const result = await UserService.getSingleStudent(id)
+  const result = await StudentsService.getSingleStudent(id)
 
   res.status(200).json({
     success: true,
@@ -63,7 +63,7 @@ const getSingleStudent = async (req: Request, res: Response) => {
 const deleteStudent = async (req: Request, res: Response) => {
   const id = req.params.id
 
-  const result = await UserService.deleteStudentFromDB(id)
+  const result = await StudentsService.deleteStudentFromDB(id)
 
   res.status(200).json({
     success: true,
@@ -71,7 +71,7 @@ const deleteStudent = async (req: Request, res: Response) => {
     data: result,
   })
 }
-export const UserController = {
+export const StudentsController = {
   createStudent,
   getAllStudents,
   getSingleStudent,

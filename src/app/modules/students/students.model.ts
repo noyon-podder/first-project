@@ -5,10 +5,10 @@ import {
   LocalGuardian,
   StudentModel,
   // IStudentMethod,
-} from './user.interface'
+} from './students.interface'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
-import config from '../..'
+import config from '../../config'
 
 const guardianSchema = new mongoose.Schema<Guardian>({
   fathersName: {

@@ -1,6 +1,6 @@
 import express, { Response, Request, Application } from 'express'
 import cors from 'cors'
-import { UserRoutes } from './app/config/modules/user/user.route'
+import { StudentsRoutes } from './app/modules/students/students.route'
 
 const app: Application = express()
 
@@ -9,7 +9,7 @@ app.use(express.json())
 app.use(cors())
 
 // router
-app.use('/api/v1/student', UserRoutes)
+app.use('/api/v1/student', StudentsRoutes)
 
 // check routing
 app.get('/', (req: Request, res: Response) => {

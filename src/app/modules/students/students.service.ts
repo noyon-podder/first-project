@@ -1,5 +1,5 @@
-import { IStudent } from './user.interface'
-import { Student } from './user.model'
+import { IStudent } from './students.interface'
+import { Student } from './students.model'
 
 const createStudentIntoDB = async (studentData: IStudent) => {
   const result = await Student.create(studentData) //built in static method
@@ -35,7 +35,7 @@ const deleteStudentFromDB = async (id: string) => {
   return result
 }
 
-export const UserService = {
+export const StudentsService = {
   createStudentIntoDB,
   getAllStudents,
   getSingleStudent,
