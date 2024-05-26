@@ -1,5 +1,18 @@
 import { z } from 'zod'
 
+const userNameValidationSchema = z.object({
+  firstName: z
+    .string()
+    .max(16, 'First name cannot be more than 16 characters.')
+    .min(1, 'First name is required.')
+    .regex(/^[A-Za-z]+$/, 'First name must contain only letters.'),
+  middleName: z.string().optional(),
+  lastName: z
+    .string()
+    .min(1, 'Last name is required.')
+    .regex(/^[A-Za-z]+$/, 'Last name  contain only letters.'),
+})
+
 const guardianValidationSchema = z.object({
   fathersName: z.string().min(1, 'Father name is required.'),
   fatherOccupation: z.string().min(1, 'Father occupation is required.'),
@@ -18,22 +31,11 @@ const localGuardianValidationSchema = z.object({
 })
 
 // Student Schema
-const studentValidationSchema = z.object({
+const createStudentValidationSchema = z.object({
   body: z.object({
     password: z.string().max(20),
     student: z.object({
-      name: z.object({
-        firstName: z
-          .string()
-          .max(16, 'First name cannot be more than 16 characters.')
-          .min(1, 'First name is required.')
-          .regex(/^[A-Za-z]+$/, 'First name must contain only letters.'),
-        middleName: z.string().optional(),
-        lastName: z
-          .string()
-          .min(1, 'Last name is required.')
-          .regex(/^[A-Za-z]+$/, 'Last name  contain only letters.'),
-      }),
+      name: userNameValidationSchema,
       email: z
         .string()
         .email('Email is not valid')
@@ -60,5 +62,5 @@ const studentValidationSchema = z.object({
 })
 
 export const studentValidations = {
-  studentValidationSchema,
+  createStudentValidationSchema,
 }
