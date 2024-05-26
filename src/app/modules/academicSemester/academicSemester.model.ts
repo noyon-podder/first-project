@@ -1,33 +1,8 @@
 import mongoose, { model } from 'mongoose'
 import {
-  TAcademicSemester,
-  TAcademicSemesterCode,
-  TAcademicSemesterName,
-  TMonths,
+  TAcademicSemester
 } from './academicSemester.interface'
-
-const Months: TMonths[] = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-]
-
-const AcademicSemesterName: TAcademicSemesterName[] = [
-  'Autumn',
-  'Summer',
-  'Fall',
-]
-
-const AcademicSemesterCode: TAcademicSemesterCode[] = ['01', '02', '03']
+import { AcademicSemesterCode, AcademicSemesterName, Months } from './academicSemester.constant'
 
 const academicSemesterSchema = new mongoose.Schema<TAcademicSemester>(
   {
