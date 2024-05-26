@@ -1,9 +1,9 @@
 import express, { Response, Request, Application } from 'express'
 import cors from 'cors'
-import { StudentsRoutes } from './app/modules/students/students.route'
-import { UserRoutes } from './app/modules/user/user.route'
+
 import globalErrorHandler from './app/middlewares/globalErrorHandler'
 import notFoundRoute from './app/middlewares/notFound'
+import router from './app/routes'
 
 const app: Application = express()
 
@@ -11,9 +11,8 @@ const app: Application = express()
 app.use(express.json())
 app.use(cors())
 
-// router
-app.use('/api/v1/user', UserRoutes)
-app.use('/api/v1/student', StudentsRoutes)
+// all router call here from routes folder
+app.use('/api/v1', router)
 
 // check routing
 app.get('/', (req: Request, res: Response) => {
