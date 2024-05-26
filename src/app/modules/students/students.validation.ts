@@ -19,42 +19,46 @@ const localGuardianValidationSchema = z.object({
 
 // Student Schema
 const studentValidationSchema = z.object({
-  id: z.string().min(1, 'Student ID is required and must be unique.'),
-  name: z.object({
-    firstName: z
-      .string()
-      .max(16, 'First name cannot be more than 16 characters.')
-      .min(1, 'First name is required.')
-      .regex(/^[A-Za-z]+$/, 'First name must contain only letters.'),
-    middleName: z.string().optional(),
-    lastName: z
-      .string()
-      .min(1, 'Last name is required.')
-      .regex(/^[A-Za-z]+$/, 'Last name  contain only letters.'),
+  body: z.object({
+    password: z.string().max(20),
+    student: z.object({
+      name: z.object({
+        firstName: z
+          .string()
+          .max(16, 'First name cannot be more than 16 characters.')
+          .min(1, 'First name is required.')
+          .regex(/^[A-Za-z]+$/, 'First name must contain only letters.'),
+        middleName: z.string().optional(),
+        lastName: z
+          .string()
+          .min(1, 'Last name is required.')
+          .regex(/^[A-Za-z]+$/, 'Last name  contain only letters.'),
+      }),
+      email: z
+        .string()
+        .email('Email is not valid')
+        .min(1, 'Email is required and must be unique.'),
+      password: z.string().max(20),
+      contactNo: z.string().min(1, 'Contact number is required.'),
+      gender: z.enum(['male', 'female', 'other'], {
+        required_error: 'Gender is required.',
+      }),
+      bloodGroup: z
+        .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
+        .optional(),
+      emergencyContactNo: z
+        .string()
+        .min(1, 'Emergency contact number is required.'),
+      dateOfBirth: z.string().min(1, 'Date of birth is required.'),
+      presentAddress: z.string().min(1, 'Present address is required.'),
+      permanentAddress: z.string().min(1, 'Permanent address is required.'),
+      localGuardian: localGuardianValidationSchema,
+      guardian: guardianValidationSchema,
+      profileImage: z.string().optional(),
+    }),
   }),
-  email: z
-    .string()
-    .email('Email is not valid')
-    .min(1, 'Email is required and must be unique.'),
-  password: z.string().max(20),
-  contactNo: z.string().min(1, 'Contact number is required.'),
-  gender: z.enum(['male', 'female', 'other'], {
-    required_error: 'Gender is required.',
-  }),
-  bloodGroup: z
-    .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
-    .optional(),
-  emergencyContactNo: z
-    .string()
-    .min(1, 'Emergency contact number is required.'),
-  dateOfBirth: z.string().min(1, 'Date of birth is required.'),
-  presentAddress: z.string().min(1, 'Present address is required.'),
-  permanentAddress: z.string().min(1, 'Permanent address is required.'),
-  localGuardian: localGuardianValidationSchema,
-  guardian: guardianValidationSchema,
-  profileImage: z.string().optional(),
-  isActive: z.enum(['active', 'block']).default('active'),
-  isDeleted: z.boolean(),
 })
 
-export default studentValidationSchema
+export const studentValidations = {
+  studentValidationSchema,
+}
