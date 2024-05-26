@@ -1,8 +1,10 @@
 import mongoose, { model } from 'mongoose'
+import { TAcademicSemester } from './academicSemester.interface'
 import {
-  TAcademicSemester
-} from './academicSemester.interface'
-import { AcademicSemesterCode, AcademicSemesterName, Months } from './academicSemester.constant'
+  AcademicSemesterCode,
+  AcademicSemesterName,
+  Months,
+} from './academicSemester.constant'
 
 const academicSemesterSchema = new mongoose.Schema<TAcademicSemester>(
   {
@@ -33,6 +35,20 @@ const academicSemesterSchema = new mongoose.Schema<TAcademicSemester>(
   },
   { timestamps: true },
 )
+
+// if same year and same name semester already exist throw error
+
+academicSemesterSchema.pre('save', async function (next) {
+  const isSemesterExist = await AcademicSemester.findOne({
+    name: this.name,
+    year: this.year,
+  })
+
+  if (isSemesterExist) {
+    throw new Error('Semester Already Exist!')
+  }
+  next()
+})
 
 export const AcademicSemester = model<TAcademicSemester>(
   'AcademicSemester',
