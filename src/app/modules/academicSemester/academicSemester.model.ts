@@ -17,7 +17,7 @@ const academicSemesterSchema = new mongoose.Schema<TAcademicSemester>(
       required: true,
     },
     year: {
-      type: Date,
+      type: String,
       required: true,
     },
     startMonth: {
