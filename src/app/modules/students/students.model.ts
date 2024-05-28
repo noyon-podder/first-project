@@ -133,7 +133,10 @@ const studentSchema = new mongoose.Schema<
       required: [true, 'Guardian information is required.'],
     },
     profileImage: { type: String },
-
+    admissionSemester: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'AcademicSemester',
+    },
     isDeleted: {
       type: Boolean,
       default: false,
