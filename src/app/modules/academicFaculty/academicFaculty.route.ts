@@ -16,4 +16,10 @@ router.get('/', AcademicFacultyControllers.getAllFaculty)
 
 router.get('/:facultyId', AcademicFacultyControllers.getSingleFaculty)
 
+router.patch(
+  '/:facultyId',
+  validateRequest(academicFacultyValidate.updateAcademicFacultyValidateSchema),
+  AcademicFacultyControllers.updateSingleFaculty,
+)
+
 export const AcademicFacultyRoutes = router

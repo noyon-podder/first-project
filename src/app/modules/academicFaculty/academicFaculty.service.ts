@@ -22,8 +22,21 @@ const getSingleFacultyIntoDB = async (facultyId: string) => {
   return result
 }
 
+// update single faculty
+const updateSingleFacultyIntoDB = async (
+  facultyId: string,
+  payload: TAcademicFaculty,
+) => {
+  const result = await AcademicFaculty.findByIdAndUpdate(facultyId, payload, {
+    new: true,
+  })
+
+  return result
+}
+
 export const AcademicFacultyServices = {
   createAcademicFacultyIntoDB,
   getAllFacultyIntoDB,
   getSingleFacultyIntoDB,
+  updateSingleFacultyIntoDB,
 }
