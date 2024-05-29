@@ -14,4 +14,6 @@ router.post(
 
 router.get('/', AcademicFacultyControllers.getAllFaculty)
 
+router.get('/:facultyId', AcademicFacultyControllers.getSingleFaculty)
+
 export const AcademicFacultyRoutes = router
