@@ -16,8 +16,9 @@ const getAllStudents = async () => {
   return result
 }
 
+// get single student into db
 const getSingleStudent = async (id: string) => {
-  const result = await Student.findOne({ _id: id })
+  const result = await Student.findOne({ id })
     .populate('user')
     .populate('admissionSemester')
     .populate({
@@ -28,6 +29,14 @@ const getSingleStudent = async (id: string) => {
   return result
 }
 
+// update student into db
+const updateStudentIntoDB = async (id: string) => {
+  const result = await Student.findOne({ id })
+
+  return result
+}
+
+// delete student with two collection and use to  => Transaction Rollback
 const deleteStudentFromDB = async (id: string) => {
   const session = await mongoose.startSession()
 
@@ -66,4 +75,5 @@ export const StudentsService = {
   getAllStudents,
   getSingleStudent,
   deleteStudentFromDB,
+  updateStudentIntoDB,
 }

@@ -6,6 +6,8 @@ const router = express.Router()
 router.get('/', StudentsController.getAllStudents)
 router.get('/:studentId', StudentsController.getSingleStudent)
 
+router.patch('/:studentId', StudentsController.updateStudent)
+
 router.delete('/:studentId', StudentsController.deleteStudent)
 
 export const StudentsRoutes = router
