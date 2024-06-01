@@ -17,7 +17,7 @@ const getAllStudents = async () => {
   return result
 }
 
-// get single student into db
+// get single student into db and populate there
 const getSingleStudent = async (id: string) => {
   const result = await Student.findOne({ id })
     .populate('user')
