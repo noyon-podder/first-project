@@ -137,6 +137,10 @@ const studentSchema = new mongoose.Schema<
       type: mongoose.Schema.Types.ObjectId,
       ref: 'AcademicSemester',
     },
+    academicDepartment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'AcademicDepartment',
+    },
     isDeleted: {
       type: Boolean,
       default: false,

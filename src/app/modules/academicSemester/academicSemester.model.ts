@@ -5,6 +5,8 @@ import {
   AcademicSemesterName,
   Months,
 } from './academicSemester.constant'
+import AppError from '../../errors/AppError'
+import httpStatus from 'http-status'
 
 const academicSemesterSchema = new mongoose.Schema<TAcademicSemester>(
   {
@@ -45,7 +47,7 @@ academicSemesterSchema.pre('save', async function (next) {
   })
 
   if (isSemesterExist) {
-    throw new Error('Semester Already Exist!')
+    throw new AppError(409,'Semester Already Exist!')
   }
   next()
 })

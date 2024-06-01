@@ -1,3 +1,4 @@
+import { AcademicDepartment } from './../academicDepartment/academicDepartment.model'
 import { Model, Types } from 'mongoose'
 
 export type Username = {
@@ -39,6 +40,7 @@ export type TStudent = {
   profileImage?: string
   admissionSemester: Types.ObjectId
   isDeleted: boolean
+  academicDepartment: Types.ObjectId
 }
 
 // creating static method
