@@ -26,7 +26,7 @@ const getAllStudents = async (query: Record<string, unknown>) => {
   })
 
   // filtering
-  const removeFields = ['searchTerm', 'sort', 'limit']
+  const removeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields']
 
   removeFields.forEach((el) => delete queryFields[el])
 
@@ -48,14 +48,24 @@ const getAllStudents = async (query: Record<string, unknown>) => {
 
   const sortQuery = filterQuery.sort(sort)
 
+  let page = 1
   let limit = 1
+  let skip = 0
 
   if (query.limit) {
-    limit = query.limit as string
+    limit = Number(query.limit) as number
   }
 
-  console.log({ query })
-  const limitQuery = await sortQuery.limit(limit)
+  if (query.page) {
+    page = Number(query.page)
+    skip = (page - 1) * limit
+  }
+
+  const paginateQuery = sortQuery.skip(skip)
+
+  const limitQuery = await paginateQuery.limit(limit)
+
+  console.log({ query }, { queryFields })
 
   return limitQuery
 }
