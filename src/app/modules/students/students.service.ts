@@ -16,7 +16,12 @@ const getAllStudents = async (query: Record<string, unknown>) => {
     searchTerm = query.searchTerm as string
   }
   // partial match in this document for search
-  const studentSearchableField = ['email', 'name.firstName', 'presentAddress']
+  const studentSearchableField = [
+    'email',
+    'name.firstName',
+    'name.lastName',
+    'presentAddress',
+  ]
 
   // {email: {$regex: query.searchTerm, $options: 'i'}}
   const searchQuery = Student.find({
