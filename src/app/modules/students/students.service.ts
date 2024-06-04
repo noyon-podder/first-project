@@ -6,8 +6,32 @@ import { User } from '../user/user.model'
 import { TStudent } from './students.interface'
 
 // get all students into db
-const getAllStudents = async () => {
-  const result = await Student.find()
+const getAllStudents = async (query: Record<string, unknown>) => {
+  // copy query for remove the field for filtering operation
+  const queryFields = { ...query }
+
+  let searchTerm = ''
+
+  if (query?.searchTerm) {
+    searchTerm = query.searchTerm as string
+  }
+  // partial match in this document for search
+  const studentSearchableField = ['email', 'name.firstName', 'presentAddress']
+
+  // {email: {$regex: query.searchTerm, $options: 'i'}}
+  const searchQuery = Student.find({
+    $or: studentSearchableField.map((field) => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  })
+
+  // filtering
+  const removeFields = ['searchTerm']
+
+  removeFields.forEach((el) => delete queryFields[el])
+
+  const result = await searchQuery
+    .find(queryFields)
     .populate('user')
     .populate('admissionSemester')
     .populate({
