@@ -63,11 +63,21 @@ const getAllStudents = async (query: Record<string, unknown>) => {
 
   const paginateQuery = sortQuery.skip(skip)
 
-  const limitQuery = await paginateQuery.limit(limit)
+  const limitQuery = paginateQuery.limit(limit)
+
+  // field limiting
+  let fields = '-__v'
+
+  if (query.fields) {
+    fields = (query.fields as string).split(',').join(' ')
+    console.log({ fields })
+  }
+
+  const fieldsQuery = await limitQuery.select(fields)
 
   console.log({ query }, { queryFields })
 
-  return limitQuery
+  return fieldsQuery
 }
 
 // get single student into db and populate there
