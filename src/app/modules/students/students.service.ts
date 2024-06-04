@@ -16,7 +16,12 @@ const getAllStudents = async (query: Record<string, unknown>) => {
     searchTerm = query.searchTerm as string
   }
   // partial match in this document for search
-  const studentSearchableField = ['email', 'name.firstName', 'presentAddress']
+  const studentSearchableField = [
+    'email',
+    'name.firstName',
+    'name.lastName',
+    'presentAddress',
+  ]
 
   // {email: {$regex: query.searchTerm, $options: 'i'}}
   const searchQuery = Student.find({
@@ -70,12 +75,9 @@ const getAllStudents = async (query: Record<string, unknown>) => {
 
   if (query.fields) {
     fields = (query.fields as string).split(',').join(' ')
-    console.log({ fields })
   }
 
   const fieldsQuery = await limitQuery.select(fields)
-
-  console.log({ query }, { queryFields })
 
   return fieldsQuery
 }
