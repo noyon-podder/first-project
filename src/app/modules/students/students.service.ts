@@ -8,41 +8,41 @@ import { TStudent } from './students.interface'
 // get all students into db
 const getAllStudents = async (query: Record<string, unknown>) => {
   // copy query for remove the field for filtering operation
-  const queryFields = { ...query }
+  // const queryFields = { ...query }
 
-  let searchTerm = ''
+  // let searchTerm = ''
 
-  if (query?.searchTerm) {
-    searchTerm = query.searchTerm as string
+  // if (query?.searchTerm) {
+  //   searchTerm = query.searchTerm as string
   }
   // partial match in this document for search
-  const studentSearchableField = [
-    'email',
-    'name.firstName',
-    'name.lastName',
-    'presentAddress',
-  ]
+  // const studentSearchableField = [
+  //   'email',
+  //   'name.firstName',
+  //   'name.lastName',
+  //   'presentAddress',
+  // ]
 
   // {email: {$regex: query.searchTerm, $options: 'i'}}
-  const searchQuery = Student.find({
-    $or: studentSearchableField.map((field) => ({
-      [field]: { $regex: searchTerm, $options: 'i' },
-    })),
-  })
+  // const searchQuery = Student.find({
+  //   $or: studentSearchableField.map((field) => ({
+  //     [field]: { $regex: searchTerm, $options: 'i' },
+  //   })),
+  // })
 
   // filtering
-  const removeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields']
+  // const removeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields']
 
-  removeFields.forEach((el) => delete queryFields[el])
+  // removeFields.forEach((el) => delete queryFields[el])
 
-  const filterQuery = searchQuery
-    .find(queryFields)
-    .populate('user')
-    .populate('admissionSemester')
-    .populate({
-      path: 'academicDepartment',
-      populate: { path: 'academicFaculty' },
-    })
+  // const filterQuery = searchQuery
+  //   .find(queryFields)
+  //   .populate('user')
+  //   .populate('admissionSemester')
+  //   .populate({
+  //     path: 'academicDepartment',
+  //     populate: { path: 'academicFaculty' },
+  //   })
 
   // sorting part start here
   let sort = '-createdAt'
