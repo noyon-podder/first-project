@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import config from '../../config'
-
 import { AcademicSemester } from '../academicSemester/academicSemester.model'
 import { TStudent } from '../students/students.interface'
 import { Student } from '../students/students.model'
