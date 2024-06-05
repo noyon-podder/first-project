@@ -12,4 +12,6 @@ router.post(
   UserControllers.crateStudent,
 )
 
+router.post('/create-faculty', UserControllers.crateFaculty)
+
 export const UserRoutes = router
