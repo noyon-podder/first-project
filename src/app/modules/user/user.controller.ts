@@ -14,6 +14,20 @@ const crateStudent = catchAsync(async (req, res) => {
   })
 })
 
+// create student
+const crateFaculty = catchAsync(async (req, res) => {
+  const { password, faculty } = req.body
+
+  const result = await UserServices.createFacultyIntoDB(password, faculty)
+
+  res.status(200).json({
+    success: true,
+    message: 'Faculty create successfully',
+    data: result,
+  })
+})
+
 export const UserControllers = {
   crateStudent,
+  crateFaculty,
 }
