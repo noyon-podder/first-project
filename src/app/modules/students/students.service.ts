@@ -4,82 +4,76 @@ import httpStatus from 'http-status'
 import AppError from '../../errors/AppError'
 import { User } from '../user/user.model'
 import { TStudent } from './students.interface'
+import QueryBuilder from '../../builder/QueryBuilder'
+import { studentSearchableField } from './student.constant'
 
 // get all students into db
 const getAllStudents = async (query: Record<string, unknown>) => {
-  // copy query for remove the field for filtering operation
-  const queryFields = { ...query }
+  // // copy query for remove the field for filtering operation
+  // const queryFields = { ...query }
+  // let searchTerm = ''
+  // if (query?.searchTerm) {
+  //   searchTerm = query.searchTerm as string
+  // }
+  // // partial match in this document for search
+  // const studentSearchableField = [
+  //   'email',
+  //   'name.firstName',
+  //   'name.lastName',
+  //   'presentAddress',
+  // ]
+  // //format: {email: {$regex: query.searchTerm, $options: 'i'}}
+  // const searchQuery = Student.find({
+  //   $or: studentSearchableField.map((field) => ({
+  //     [field]: { $regex: searchTerm, $options: 'i' },
+  //   })),
+  // })
+  // // filtering
+  // const removeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields']
+  // removeFields.forEach((el) => delete queryFields[el])
+  // const filterQuery = searchQuery
+  //   .find(queryFields)
+  //   .populate('user')
+  //   .populate('admissionSemester')
+  //   .populate({
+  //     path: 'academicDepartment',
+  //     populate: { path: 'academicFaculty' },
+  //   })
+  // // sorting part start here
+  // let sort = '-createdAt'
+  // if (query.sort) {
+  //   sort = query.sort as string
+  // }
+  // const sortQuery = filterQuery.sort(sort)
+  // let page = 1
+  // let limit = 1
+  // let skip = 0
+  // if (query.limit) {
+  //   limit = Number(query.limit) as number
+  // }
+  // if (query.page) {
+  //   page = Number(query.page)
+  //   skip = (page - 1) * limit
+  // }
+  // const paginateQuery = sortQuery.skip(skip)
+  // const limitQuery = paginateQuery.limit(limit)
+  // // field limiting
+  // let fields = '-__v'
+  // if (query.fields) {
+  //   fields = (query.fields as string).split(',').join(' ')
+  // }
+  // const fieldsQuery = await limitQuery.select(fields)
+  // return fieldsQuery
 
-  let searchTerm = ''
+  const studentQuery = new QueryBuilder(Student.find(), query)
+    .search(studentSearchableField)
+    .filter()
+    .sort()
+    .paginate()
+    .fields()
 
-  if (query?.searchTerm) {
-    searchTerm = query.searchTerm as string
-  }
-  // partial match in this document for search
-  const studentSearchableField = [
-    'email',
-    'name.firstName',
-    'name.lastName',
-    'presentAddress',
-  ]
-
-  // {email: {$regex: query.searchTerm, $options: 'i'}}
-  const searchQuery = Student.find({
-    $or: studentSearchableField.map((field) => ({
-      [field]: { $regex: searchTerm, $options: 'i' },
-    })),
-  })
-
-  // filtering
-  const removeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields']
-
-  removeFields.forEach((el) => delete queryFields[el])
-
-  const filterQuery = searchQuery
-    .find(queryFields)
-    .populate('user')
-    .populate('admissionSemester')
-    .populate({
-      path: 'academicDepartment',
-      populate: { path: 'academicFaculty' },
-    })
-
-  // sorting part start here
-  let sort = '-createdAt'
-
-  if (query.sort) {
-    sort = query.sort as string
-  }
-
-  const sortQuery = filterQuery.sort(sort)
-
-  let page = 1
-  let limit = 1
-  let skip = 0
-
-  if (query.limit) {
-    limit = Number(query.limit) as number
-  }
-
-  if (query.page) {
-    page = Number(query.page)
-    skip = (page - 1) * limit
-  }
-
-  const paginateQuery = sortQuery.skip(skip)
-
-  const limitQuery = paginateQuery.limit(limit)
-
-  // field limiting
-  let fields = '-__v'
-
-  if (query.fields) {
-    fields = (query.fields as string).split(',').join(' ')
-  }
-
-  const fieldsQuery = await limitQuery.select(fields)
-
-  return fieldsQuery
+  const result = await studentQuery.modelQuery
+  return result
 }
 
 // get single student into db and populate there
