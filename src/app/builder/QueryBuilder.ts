@@ -45,12 +45,22 @@ class QueryBuilder<T> {
     return this
   }
 
+  // paginate method declare for pagination
   paginate() {
     const page = Number(this?.query?.page) || 1
-    const limit = Number(this?.query?.limit) || 1
+    const limit = Number(this?.query?.limit) || 3
     const skip = (page - 1) * limit || 0
 
     this.modelQuery = this.modelQuery.skip(skip).limit(limit)
+    return this
+  }
+
+  // fields method declare for remove field in user response
+  fields() {
+    const fields =
+      (this?.query?.fields as string)?.split(',').join(' ') || '-__v'
+
+    this.modelQuery = this.modelQuery.select(fields)
     return this
   }
 }
