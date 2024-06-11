@@ -9,13 +9,13 @@ const createCourse = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Course is created succesfully',
+    message: 'Course is created successfully',
     data: result,
   })
 })
 
 const getAllCourses = catchAsync(async (req, res) => {
-  const result = await CourseServices.getAllCourseFromDB()
+  const result = await CourseServices.getAllCourseFromDB(req.query)
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -32,7 +32,7 @@ const getSingleCourse = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Course is retrieved succesfully',
+    message: 'Course is retrieved successfully',
     data: result,
   })
 })
@@ -99,7 +99,7 @@ export const CourseControllers = {
   createCourse,
   getSingleCourse,
   getAllCourses,
-  updateCourse,
+  //   updateCourse,
   deleteCourse,
   //   assignFacultiesWithCourse,
   //   removeFacultiesFromCourse,
