@@ -38,6 +38,7 @@ const courseSchema = new Schema<TCourse>(
       type: Number,
       trim: true,
       required: true,
+      unique: true,
     },
     credits: {
       type: Number,
